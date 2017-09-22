@@ -11,11 +11,21 @@ module.exports = {
     },
     templates: {
       joinTo: 'app.js'
-    }
+    },
+    stylesheets: {
+      joinTo: {
+        'app.css': 'app/styles/main.scss'
+      }
+    },
   },
   plugins: {
     babel: {
       presets: ['es2015']
+    },
+    plugins: {
+      sass: {
+        mode: 'ruby'
+      }
     }
   }
 }
