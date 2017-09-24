@@ -10,4 +10,5 @@ RUN apt-get -y install bundler
 RUN gem install sass
 
 WORKDIR /app
+RUN npm install --no-bin-links
 CMD brunch watch -s -n

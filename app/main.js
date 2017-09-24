@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import "vueify/lib/insert-css" // required for .vue file <style> tags
+import databaseService from 'services/DatabaseService';
 
 Vue.config.productionTip = false
 Vue.use(Vuex);
@@ -11,24 +12,27 @@ const store = new Vuex.Store({
   state: {
     initializing: true,
     session: false,
-    user: null
+    user: null,
+    preferences: {}
   },
   mutations: {
     sessionStarted (state, user) {
-      console.log('ss');
-      state.initializing = false;
       state.session = true;
       state.user = user;
-      router.replace('/');
     },
     sessionEnded (state) {
-      console.log('se');
       state.initializing = false;
       if(state.session) {
         state.session = false;
         state.user = null;
+        state.preferences = {};
       }
-      router.push('/sign_in');  
+    },
+    preferencesUpdated (state, preferences) {
+      state.preferences = preferences;
+    },
+    initFinished (state) {
+      state.initializing = false;
     }
   }
 });
@@ -60,7 +64,13 @@ new Vue({
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     store.commit('sessionStarted', user);
+    firebase.database().ref('preferences/' + user.uid).once('value').then(function(preferences){
+      store.commit('preferencesUpdated', preferences.val() || {});
+      store.commit('initFinished');
+      router.push('/');
+    })
   } else {
-    store.commit('sessionEnded')
+    store.commit('sessionEnded');
+    router.push('/sign_in');
   }
 });
