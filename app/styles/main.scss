@@ -1,4 +1,16 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap";
 // @import "./another";
 
+// Named with: http://chir.ag/projects/name-that-color
+$color-pickled-bluewood: #2C3E50;
 
+.navbar-default {
+  background-color: $color-pickled-bluewood;
+  border-radius: 0px;
+
+  .navbar-header {
+    a {
+      color: white;
+    }
+  }
+}
