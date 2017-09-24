@@ -1,4 +1,7 @@
 module.exports = {
+  watcher: {
+    usePolling: true
+  },
   server: { 
     hostname: '0.0.0.0'
   },

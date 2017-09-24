@@ -5,18 +5,30 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Brunch Vue Barebones</title>
+	<title>Txtjrnl</title>
+	<link type="text/css" href="/app.css" rel="stylesheet"></link>
 </head>
 
 <body>
-
 	<main id="app">
 		<router-view></router-view>
 	</main>
 
+	<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyB3XgiKpTFNWUTu81rJb9w6wiIFp3RmKBQ",
+			authDomain: "txtjrnl.firebaseapp.com",
+			databaseURL: "https://txtjrnl.firebaseio.com",
+			projectId: "txtjrnl",
+			storageBucket: "",
+			messagingSenderId: "370857845190"
+		};
+		firebase.initializeApp(config);
+	</script>
 	<script type="text/javascript" src="/vendor.js"></script>
 	<script type="text/javascript" src="/app.js"></script>
-	<script type="text/javascript" src="/app.css"></script>
 	<script type="text/javascript">
 		require('main');
 	</script>

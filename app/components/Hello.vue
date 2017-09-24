@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <div>Welcome, {{ $store.state.user.email }}</div>
   </div>
 </template>
 
@@ -9,7 +9,6 @@
     name: 'hello',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App, bundled with Brunch!'
       }
     }
   }
