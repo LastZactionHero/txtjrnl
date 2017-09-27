@@ -1,5 +1,7 @@
 .idea/
 .vscode/
-public/
-node_modules/
-npm-debug.log
+front/public/
+front/node_modules/
+front/npm-debug.log
+receiver/app/node_modules/
+receiver/firebase-key.json
