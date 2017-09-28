@@ -14,3 +14,19 @@ $color-pickled-bluewood: #2C3E50;
     }
   }
 }
+
+.country-prefix {
+  line-height: 34px;
+  font-weight: bold;
+}
+
+ul.messages {
+  list-style-type: none;
+  margin: 64px;
+
+  li.message {
+    border-bottom: 1px solid $color-pickled-bluewood;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+}

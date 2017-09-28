@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     initializing: true,
     session: false,
     user: null,
-    preferences: {}
+    preferences: {},
+    messages: []
   },
   mutations: {
     sessionStarted (state, user) {
@@ -33,6 +34,9 @@ const store = new Vuex.Store({
     },
     initFinished (state) {
       state.initializing = false;
+    },
+    appendMessage (state, message) {
+      state.messages.push(message);
     }
   }
 });
@@ -68,6 +72,18 @@ firebase.auth().onAuthStateChanged(function(user) {
       store.commit('preferencesUpdated', preferences.val() || {});
       store.commit('initFinished');
       router.push('/');
+
+      // Firebase: Load messages for user
+      // TODO: DB Protection
+      // TOOD: Modularize this
+      var messagesRef = firebase.database().ref('messages');
+      messagesRef.orderByChild("uid").equalTo(user.uid).on('child_added', function(data) {
+        store.commit('appendMessage', data.val());
+      });
+      messagesRef.orderByChild("uid").equalTo(user.uid).on('child_removed', function(data) {
+        console.log("CHILD DELETED")
+      });
+
     })
   } else {
     store.commit('sessionEnded');

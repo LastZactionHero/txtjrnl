@@ -9,7 +9,12 @@
           <form>
             <div class="form-group">
               <label for="phone_number"></label>
-              <input type="text" class="form-control" id="phone_number" placeholder="Phone Number" v-model="phoneNumber">
+              <div class='row'>
+                <div class='col-xs-1 text-right country-prefix'>+1</div>
+                <div class='col-xs-11'>
+                  <input type="text" class="form-control" id="phone_number" placeholder="Phone Number" v-model="phoneNumber">
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="timezone">Timezone</label>
@@ -133,8 +138,12 @@
         this.submitting = true;
         this.error = null;
 
+
+        const phoneNumberFormatted = '+1' + this.phoneNumber.replace(/[^0-9]/g, '');
+
         const preferences = {
           phoneNumber: this.phoneNumber,
+          phoneNumberFormatted: phoneNumberFormatted,
           timezone: this.timezone
         };
         firebase.database().ref('preferences/' + this.$store.state.user.uid).set(preferences).then(function() {

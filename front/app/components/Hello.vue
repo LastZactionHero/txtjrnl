@@ -1,8 +1,20 @@
 <template>
   <div class="hello">
-    <h2>Welcome, {{ $store.state.user.email }}</h2>
     <div v-if="incompleteProfile">
       <more-info></more-info>
+    </div>
+    <div v-else>
+      <h3>Your Entries</h3>
+      <ul class='messages'>
+        <li v-for="message in $store.state.messages" class='message'>
+          {{ message.body }}
+          <div v-if="message.media">
+            <div v-for="media in message.media">
+              <img :src="media.url" />
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
