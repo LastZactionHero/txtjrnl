@@ -44,7 +44,7 @@ const store = new Vuex.Store({
       state.messages.push(message);
 
       // Sort by created_at
-      state.messages.sort((a,b) => { return b.created_at > a.created_at });
+      state.messages = state.messages.sort((a,b) => { return moment(b.created_at) - moment(a.created_at) });
 
       // Indicate if a message is the last of a day
       state.messages.forEach((message) => { message.lastOfDay = false; });
@@ -57,7 +57,6 @@ const store = new Vuex.Store({
         }        
         lastDatestamp = datestamp;
       });
-
     }
   }
 });
