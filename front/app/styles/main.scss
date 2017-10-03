@@ -60,8 +60,7 @@ ul.messages {
   padding: 0px;
 
   .message {
-    border-bottom: 1px solid $color-silver;
-    padding-bottom: 36px;
+    padding-top: 36px;
     margin-bottom: 24px;
     font-family: 'Slabo 13px', serif;
 
@@ -86,6 +85,10 @@ ul.messages {
       color: $color-silver;
       font-size: 2rem;
     }
+  }
+
+  .message.divider {
+    border-top: 1px solid $color-silver;
   }
 }
 

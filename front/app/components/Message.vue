@@ -1,5 +1,5 @@
 <template>
-  <div class='message'>
+  <div class='message' v-bind:class="{ 'divider': !this.message.lastOfDay }">
     <div v-if="message.lastOfDay" class='day-divider'>
       <div class='row'>
         <div class='col-sm-4 line hidden-xs'></div>
