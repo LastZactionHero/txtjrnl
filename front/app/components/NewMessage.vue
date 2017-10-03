@@ -29,7 +29,9 @@
       }
     },
     methods: {
-      submit() {
+      submit(event) {
+        event.preventDefault();
+
         NewMessageService.postNewMessage(this.$store.state.user, this.message);
         this.message = '';
       }
