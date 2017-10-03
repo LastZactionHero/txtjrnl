@@ -3,10 +3,44 @@
 
 // Named with: http://chir.ag/projects/name-that-color
 $color-pickled-bluewood: #2C3E50;
+$color-silver: #BDBDBD;
+$color-emperor: #4F4F4F;
+$color-black: #000000;
+$color-concrete: #F2F2F2;
+$color-de-york: #6FCF97;
+$color-jungle-green: #27AE60;
+
+@mixin drop-shadow-down() {
+  -webkit-box-shadow: 0px 4px 2px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 4px 2px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 4px 2px 0px rgba(0,0,0,0.5);
+}
+
+body {
+  font-family: 'Hind', sans-serif;
+}
+
+
+input.form-control[type="text"] {
+  padding: 24px;
+  font-size: 2rem;
+  font-family: 'Slabo 13px', serif;
+}
+
+.btn-primary {
+  background-color: $color-de-york;
+  border-color: $color-de-york;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: $color-jungle-green;
+  border-color: $color-jungle-green;
+}
 
 .navbar-default {
+  @include drop-shadow-down();
   background-color: $color-pickled-bluewood;
   border-radius: 0px;
+  border: 0px;
 
   .navbar-header {
     a {
@@ -22,11 +56,62 @@ $color-pickled-bluewood: #2C3E50;
 
 ul.messages {
   list-style-type: none;
-  margin: 64px;
+  margin: 64px 0px;
+  padding: 0px;
 
-  li.message {
-    border-bottom: 1px solid $color-pickled-bluewood;
-    padding-bottom: 24px;
+  .message {
+    border-bottom: 1px solid $color-silver;
+    padding-bottom: 36px;
     margin-bottom: 24px;
+    font-family: 'Slabo 13px', serif;
+
+    .day-divider {
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 2rem;
+      color: $color-silver;
+
+      .line {
+        border-top: 1px solid $color-silver;
+        margin-top: 14px;
+      }
+    }
+
+    .message-body {
+      font-size: 2rem;
+      color: $color-emperor;
+    }
+
+    .timestamp {
+      color: $color-silver;
+      font-size: 2rem;
+    }
+  }
+}
+
+.new-message-wrapper {
+  background-color: $color-concrete;
+  margin-top: -24px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+
+  .new-message {
+    .btn {
+      font-size: 2rem;
+      padding: 10px 16px;
+    }
+  }
+
+  .sms-number {
+    margin-top: 12px;
+    margin-left: 24px;
+    color: $color-emperor;
+    font-size: 2rem;
+
+    .number {
+      color: $color-black;
+      font-weight: bold;
+      margin-top: 12px;
+    }
   }
 }

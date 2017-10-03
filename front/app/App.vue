@@ -6,9 +6,7 @@
     <div v-else>
       <div>
         <navbar></navbar>
-        <div class='container'>
-          <router-view></router-view>
-        </div>
+        <router-view></router-view>
       </div>
     </div>
   </div>

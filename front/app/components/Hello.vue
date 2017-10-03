@@ -1,27 +1,33 @@
 <template>
   <div class="hello">
     <div v-if="incompleteProfile">
-      <more-info></more-info>
+      <div class='container'>
+        <more-info></more-info>
+      </div>
     </div>
     <div v-else>
-      <h3>Your Entries</h3>
-      <ul class='messages'>
-        <li v-for="message in $store.state.messages" class='message'>
-          {{ message.body }}
-          <div v-if="message.media">
-            <div v-for="media in message.media">
-              <img :src="media.url" />
-            </div>
-          </div>
-        </li>
-      </ul>
+      <div class='new-message-wrapper'>
+        <div class='container'>
+          <new-message></new-message>
+        </div>
+      </div>
+      <div class='container'>
+        <ul class='messages'>
+          <li v-for="message in $store.state.messages">
+            <message v-bind:message="message"></message>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Message from './Message';
   import MoreInfo from './MoreInfo';
+  import NewMessage from './NewMessage';
   import SignIn from './SignIn';
+  
   export default {
     name: 'hello',
     data() {
@@ -35,7 +41,9 @@
     },
     components: {
       'more-info': MoreInfo,
-      'sign-in': SignIn
+      'sign-in': SignIn,
+      'message': Message,
+      'new-message': NewMessage
     },
     methods: {
     }

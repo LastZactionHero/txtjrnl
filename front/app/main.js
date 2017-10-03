@@ -4,6 +4,11 @@ import App from './App'
 import router from './router'
 import "vueify/lib/insert-css" // required for .vue file <style> tags
 import databaseService from 'services/DatabaseService';
+import Moment from 'moment';
+import JQuery from 'jquery';
+
+window.moment = Moment;
+window.$ = JQuery;
 
 Vue.config.productionTip = false
 Vue.use(Vuex);
@@ -37,6 +42,22 @@ const store = new Vuex.Store({
     },
     appendMessage (state, message) {
       state.messages.push(message);
+
+      // Sort by created_at
+      state.messages.sort((a,b) => { return b.created_at > a.created_at });
+
+      // Indicate if a message is the last of a day
+      state.messages.forEach((message) => { message.lastOfDay = false; });
+      let lastDatestamp = null;      
+      state.messages.forEach((message) => {
+        const createdAt = moment(message.created_at);
+        const datestamp = `${createdAt.dayOfYear()}_${createdAt.year()}`
+        if(lastDatestamp == null || lastDatestamp != datestamp) {
+          message.lastOfDay = true;
+        }        
+        lastDatestamp = datestamp;
+      });
+
     }
   }
 });

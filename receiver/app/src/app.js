@@ -1,19 +1,18 @@
-const express = require('express')
-const bodyParser = require('body-parser');;
-const admin = require("firebase-admin");
-
+import Express from 'express'
+import BodyParser from 'body-parser'
 import TwilioMessageParser from './TwilioMessageParser';
+import firebaseAdmin from 'firebase-admin'
 
 // Firebase Admin Setup
 var serviceAccount = require("/root/firebase-key.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount),
   databaseURL: "https://txtjrnl.firebaseio.com"
 });
 
 // Init Express App
-const app = express()
-app.use(bodyParser.urlencoded({ extended: true }));
+const app = Express()
+app.use(BodyParser.urlencoded({ extended: true }));
 
 // SMS Reciever
 app.post('/sms', function (req, res) {
@@ -25,7 +24,7 @@ app.post('/sms', function (req, res) {
   console.log(message.body);
   console.log(message.media);
 
-  var ref = admin.database().ref("preferences");
+  var ref = firebaseAdmin.database().ref("preferences");
   ref.orderByChild('phoneNumberFormatted').equalTo(message.phoneNumber).limitToFirst(1).on("child_added", function(snapshot) {
     const userKey = snapshot.key;
     console.log(`Posting for User with key: ${userKey}`);
@@ -35,15 +34,16 @@ app.post('/sms', function (req, res) {
       return;
     }
 
-    var newMessageRef = admin.database().ref().child('messages').push();
+    var newMessageRef = firebaseAdmin.database().ref().child('messages').push();
     newMessageRef.set({
       uid: userKey,
       body: message.body,
       media: message.media,
-      raw: message.data
+      raw: message.data,
+      created_at: (new Date()).toISOString()
     });
 
   });  
 });
 
-app.listen(3333, '0.0.0.0')
+app.listen(3333, '0.0.0.0');
