@@ -16,7 +16,7 @@
           </div>
         </div>
       </div>
-      <div class='col-md-3'>
+      <div class='col-md-3 text-right'>
         <span class='timestamp'>{{ created_at }}</span>
       </div>
     </div>

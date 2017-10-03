@@ -2,10 +2,10 @@
   <div class='new-message'>
     <form v-on:submit="submit">
       <div class='row'>
-        <div class='col-sm-10'>
+        <div class='col-sm-10 col-xs-12'>
           <input type='text' class='form-control' placeholder="What's on your mind?" v-model="message"></input>
         </div>
-        <div class='col-sm-2'>
+        <div class='col-sm-2 col-xs-12'>
           <button type='submit' class='btn btn-primary' :disabled=isDisabled>Send</button>
         </div>
       </div>
