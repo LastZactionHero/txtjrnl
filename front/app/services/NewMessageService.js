@@ -4,9 +4,8 @@ export default {
   postNewMessage(user, message) {
     const database = DatabaseService.getDatabase();
 
-    var newMessageRef = database.ref().child('messages').push();
+    var newMessageRef = database.ref().child(`messages/${user.uid}`).push();
     newMessageRef.set({
-      uid: user.uid,
       body: message,
       media: [],
       raw: null,

@@ -96,11 +96,11 @@ firebase.auth().onAuthStateChanged(function(user) {
       // Firebase: Load messages for user
       // TODO: DB Protection
       // TOOD: Modularize this
-      var messagesRef = firebase.database().ref('messages');
-      messagesRef.orderByChild("uid").equalTo(user.uid).on('child_added', function(data) {
+      var messagesRef = firebase.database().ref(`messages/${user.uid}/`);
+      messagesRef.on('child_added', function(data) {
         store.commit('appendMessage', data.val());
       });
-      messagesRef.orderByChild("uid").equalTo(user.uid).on('child_removed', function(data) {
+      messagesRef.on('child_removed', function(data) {
         console.log("CHILD DELETED")
       });
 
