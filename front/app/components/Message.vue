@@ -37,14 +37,20 @@
       messageBody: function() {
         let b = $('<div/>').append(this.message.body).text()
 
-        let startIndex = 0;
-        while((startIndex = b.indexOf('http://', startIndex)) != -1) {
-          const endIndex = b.indexOf(' ', startIndex)
+        // Replace URLs with links
+        // Find any urls
+        const urlRegexp = new RegExp(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/, 'g');
+        let urls = b.match(urlRegexp);
 
-          const linkStr = endIndex == -1 ? b.slice(startIndex) : b.slice(startIndex, endIndex)
-          b = b.replace(linkStr, `<a href="${linkStr}" target="_blank">${linkStr}</a>`);
-          startIndex = b.lastIndexOf('</a>');
+        if(urls && urls.length > 0) {
+          // Replace them with links
+          urls = $.unique(urls);
+          urls.forEach((url) => {
+            b = b.replace(new RegExp(url, 'g'), `<a href="${url}" target="_blank">${url}</a>`);
+          })
         }
+
+
         return b;
       }
     }
