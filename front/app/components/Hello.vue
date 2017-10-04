@@ -12,6 +12,9 @@
         </div>
       </div>
       <div class='container'>
+        <div v-if="$store.state.messages.length == 0" class='no-entries text-center'>
+          Send a text message or post above to start your journal.
+        </div>
         <ul class='messages'>
           <li v-for="message in $store.state.messages">
             <message v-bind:message="message"></message>
