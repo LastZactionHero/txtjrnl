@@ -34,7 +34,7 @@ app.post('/sms', function (req, res) {
       return;
     }
 
-    var newMessageRef = firebaseAdmin.database().ref().child(`messages/${userKey}`).push();
+    var newMessageRef = firebaseAdmin.database().ref().child(`messages/${userKey}/`).push();
     newMessageRef.set({
       body: message.body,
       media: message.media,
