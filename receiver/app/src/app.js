@@ -1,7 +1,9 @@
 import Express from 'express'
 import BodyParser from 'body-parser'
-import TwilioMessageParser from './TwilioMessageParser';
+import TwilioMessageParser from './TwilioMessageParser'
 import firebaseAdmin from 'firebase-admin'
+import Twilio from 'twilio'
+import WelcomeMessageSender from './WelcomeMessageSender'
 
 // Firebase Admin Setup
 var serviceAccount = require("/root/firebase-key.json");
@@ -10,6 +12,29 @@ firebaseAdmin.initializeApp({
   databaseURL: "https://txtjrnl.firebaseio.com"
 });
 
+// Send Welcome Texts
+const preferencesRef = firebaseAdmin.database().ref('preferences/');
+const welcomeResponder = (firebaseData) => {
+  const data = firebaseData.val();
+  const phoneNumberDefined = data.phoneNumberFormatted && data.phoneNumberFormatted.length > 0
+  if(phoneNumberDefined && !data.sentWelcomeNotification) {
+    console.log("User needs a welcome notification")
+    console.log(firebaseData.key)
+
+
+    const userPreferenceRef = firebaseAdmin.database().ref(`preferences/${firebaseData.key}`);
+    userPreferenceRef.update({sentWelcomeNotification: true}).then(() => {
+      console.log("Preferences updated to indicate welcome notification sent")
+
+      const welcomeSender = new WelcomeMessageSender(data.phoneNumberFormatted);
+      welcomeSender.send()
+    })
+  }
+}
+preferencesRef.on('child_added', welcomeResponder);
+preferencesRef.on('child_changed', welcomeResponder);
+
+
 // Init Express App
 const app = Express()
 app.use(BodyParser.urlencoded({ extended: true }));
@@ -17,7 +42,6 @@ app.use(BodyParser.urlencoded({ extended: true }));
 // SMS Reciever
 app.post('/sms', function (req, res) {
   res.status(204).send();
-
 
   const message = new TwilioMessageParser(req.body);
   console.log(message.phoneNumber);

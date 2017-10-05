@@ -8,6 +8,8 @@ services:
       - ./front:/app
   receiver:
     build: ./receiver
+    env_file:
+      - ./receiver.env
     ports:
       - "3334:3333"
     volumes:

@@ -9,7 +9,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "twilio": "^3.7.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
