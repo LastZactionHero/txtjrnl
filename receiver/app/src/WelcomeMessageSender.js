@@ -9,7 +9,7 @@ export default class WelcomeMessageSender {
 
   send() {
     console.log(`Starting welcome message send to: ${this._phoneNumberFormatted}`);
-    this._messageStack = Messages.welcome;
+    this._messageStack = Messages.welcome();
     this._sendNext();
   }
 
