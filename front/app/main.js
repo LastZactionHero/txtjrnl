@@ -4,7 +4,7 @@ import App from './App'
 import router from './router'
 import "vueify/lib/insert-css" // required for .vue file <style> tags
 import databaseService from 'services/DatabaseService';
-import Moment from 'moment';
+import Moment from 'moment-timezone';
 import JQuery from 'jquery';
 
 window.moment = Moment;
