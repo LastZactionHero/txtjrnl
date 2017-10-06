@@ -1,19 +1,16 @@
 import Express from 'express'
 import BodyParser from 'body-parser'
 import TwilioMessageParser from './TwilioMessageParser'
-import firebaseAdmin from 'firebase-admin'
 import Twilio from 'twilio'
 import WelcomeMessageSender from './WelcomeMessageSender'
+import DatabaseService from './DatabaseService';
+import Schedule from 'node-schedule';
+import InactiveEventService from './InactiveEventService';
 
-// Firebase Admin Setup
-var serviceAccount = require("/root/firebase-key.json");
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(serviceAccount),
-  databaseURL: "https://txtjrnl.firebaseio.com"
-});
+const database = DatabaseService.getDatabase();
 
 // Send Welcome Texts
-const preferencesRef = firebaseAdmin.database().ref('preferences/');
+const preferencesRef = database.ref('preferences/');
 const welcomeResponder = (firebaseData) => {
   const data = firebaseData.val();
   const phoneNumberDefined = data.phoneNumberFormatted && data.phoneNumberFormatted.length > 0
@@ -22,7 +19,7 @@ const welcomeResponder = (firebaseData) => {
     console.log(firebaseData.key)
 
 
-    const userPreferenceRef = firebaseAdmin.database().ref(`preferences/${firebaseData.key}`);
+    const userPreferenceRef = database.ref(`preferences/${firebaseData.key}`);
     userPreferenceRef.update({sentWelcomeNotification: true}).then(() => {
       console.log("Preferences updated to indicate welcome notification sent")
 
@@ -34,6 +31,12 @@ const welcomeResponder = (firebaseData) => {
 preferencesRef.on('child_added', welcomeResponder);
 preferencesRef.on('child_changed', welcomeResponder);
 
+// Schedule Inactive Messages
+var idleEventServiceJob = Schedule.scheduleJob('*/15 * * * *', () => {
+  console.log("Running InactiveEventService")
+  var inactiveEventService = new InactiveEventService();
+  inactiveEventService.run(Moment().utc());
+});
 
 // Init Express App
 const app = Express()
@@ -48,7 +51,7 @@ app.post('/sms', function (req, res) {
   console.log(message.body);
   console.log(message.media);
 
-  var ref = firebaseAdmin.database().ref("preferences");
+  var ref = database.ref("preferences");
   ref.orderByChild('phoneNumberFormatted').equalTo(message.phoneNumber).limitToFirst(1).on("child_added", function(snapshot) {
     const userKey = snapshot.key;
     console.log(`Posting for User with key: ${userKey}`);
@@ -58,7 +61,7 @@ app.post('/sms', function (req, res) {
       return;
     }
 
-    var newMessageRef = firebaseAdmin.database().ref().child(`messages/${userKey}/`).push();
+    var newMessageRef = database.ref().child(`messages/${userKey}/`).push();
     newMessageRef.set({
       body: message.body,
       media: message.media,

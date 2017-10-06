@@ -7,5 +7,14 @@ export default {
       "We suggest adding this number to your contacts, and even giving it a name in your contacts.",
       "Start journaling!"
     ]
+  },
+
+  inactive() {
+    return [
+      { time: { hour: 8, minute: 45 }, message: 'What would you like to accomplish today?', firstMessageOfTheDay: true },
+      { time: { hour: 12, minute: 0 }, message: 'How are things going today?' },
+      { time: { hour: 18, minute: 0 }, message: 'How did today go?' },
+      { time: { hour: 21, minute: 0 }, message: 'Any thoughts as you finish your day?', lastMessageOfTheDay: true }
+    ]
   }
 }

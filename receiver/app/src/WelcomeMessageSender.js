@@ -7,7 +7,9 @@ export default class WelcomeMessageSender {
     this._delay = delay;
   }
 
-  send() {
+  send(finishedCallback) {
+    this._finishedCallback = finishedCallback;
+
     console.log(`Starting welcome message send to: ${this._phoneNumberFormatted}`);
     this._messageStack = Messages.welcome();
     this._sendNext();
@@ -17,6 +19,7 @@ export default class WelcomeMessageSender {
     // Is everything done?
     if(this._messageStack.length == 0) { 
       console.log('Welcome send complete.')
+      this._finishedCallback();
       return; 
     } 
 
