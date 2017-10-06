@@ -19,7 +19,7 @@ export default class DormantMessageSender {
     // Is everything done?
     if(this._messageStack.length == 0) { 
       console.log('Dormant send complete.')
-      this._finishedCallback();
+      if(this._finishedCallback) { this.finishedCallback() };
       return; 
     } 
 

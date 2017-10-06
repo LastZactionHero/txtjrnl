@@ -1,4 +1,4 @@
-import Moment from 'moment';
+import Moment from 'moment-timezone';
 import Messages from './Messages';
 import PossibleInactiveEventUserListService from './PossibleInactiveEventUserListService';
 import DatabaseService from './DatabaseService';
@@ -14,8 +14,7 @@ export default class InactiveEventService {
 
       var possibleInactiveService = new PossibleInactiveEventUserListService(inactiveEventMessage, moment);
       possibleInactiveService.find().then( (userPreferencesSnapshot) => {
-        console.log("This event could apply to some users:")
-        console.log(userPreferencesSnapshot.val());
+        console.log(`This event could apply to ${userPreferencesSnapshot.length} user(s)`);
         this._notifyIfInactive(moment, userPreferencesSnapshot, inactiveEventMessage);
       }).catch( (e) => { console.log('Event not running now.'); console.log(e) } );
     });

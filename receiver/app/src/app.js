@@ -7,7 +7,7 @@ import DatabaseService from './DatabaseService';
 import InactiveEventService from './InactiveEventService';
 import DormantEventService from './DormantEventService';
 import Schedule from 'node-schedule';
-import Moment from 'moment';
+import Moment from 'moment-timezone';
 
 const database = DatabaseService.getDatabase();
 

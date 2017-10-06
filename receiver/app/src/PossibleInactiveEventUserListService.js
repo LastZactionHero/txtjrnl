@@ -1,5 +1,6 @@
 import DatabaseService from './DatabaseService';
 import Messages from './Messages';
+import Moment from 'moment-timezone';
 
 // Build a list of Users that may be eligable for an Inactive message
 export default class PossibleInactiveEventUserListService {
@@ -18,22 +19,21 @@ export default class PossibleInactiveEventUserListService {
         return;
       };
 
-      // Determine the timezone in which this message would show
-      // Build a string, e.g. +5, -8
-      const currentHourUTC = this._moment.hour();
-      console.log(`Current Hour, UTC: ${currentHourUTC}`)
-      const eventHourLocal = this._inactiveEvent.time.hour;
-      console.log(`Event Hour, Local: ${eventHourLocal}`)
+      // Find a list of timezones that match the event hour in local time
+      const matchingTimezoneNames = Moment.tz.names().filter((tzName) => {
+        return this._moment.tz(tzName).hour() == this._inactiveEvent.time.hour
+      })
+      console.log(matchingTimezoneNames)
 
-      let timezoneOffset = eventHourLocal - currentHourUTC;
-      if(timezoneOffset > 12) { timezoneOffset = timezoneOffset - 24 }
-
-      const timezoneStr = timezoneOffset > 0 ? `+${timezoneOffset}` : `${timezoneOffset}`;
-      console.log(`Message applies to users with timezone offset: ${timezoneOffset}`);
-
-      // Get an array of UIDs 
-      database.ref('preferences').orderByChild('timezone').equalTo(timezoneStr).once('value').then( (snapshot) => {
-        resolve(snapshot);
+      // Find anyone in a matching timezone timezone (Firebase does not have 'FIND IN ARRAY' selects)
+      database.ref('preferences').once('value').then( (snapshot) => {
+        const matchingUserPreferences = [];
+        snapshot.forEach((preference) => {
+          if(matchingTimezoneNames.indexOf(preference.val().timezone) != -1) {
+            matchingUserPreferences.push(preference)
+          }
+        });
+        resolve(matchingUserPreferences)
       });
     });
   }

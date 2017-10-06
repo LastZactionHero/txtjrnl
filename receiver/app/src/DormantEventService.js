@@ -1,6 +1,6 @@
 import DatabaseService from './DatabaseService';
 import DormantMessageSender from './DormantMessageSender';
-import Moment from 'moment';
+import Moment from 'moment-timezone';
 
 export default class DormantEventService {
   run(momentUTC) {
@@ -10,23 +10,27 @@ export default class DormantEventService {
     console.log(`Current Hour, UTC: ${currentHourUTC}`)
     const eventHourLocal = 10; // Run at 10AM
 
-    let timezoneOffset = eventHourLocal - currentHourUTC;
-    if(timezoneOffset > 12) { timezoneOffset = timezoneOffset - 24 }
-    const timezoneStr = timezoneOffset > 0 ? `+${timezoneOffset}` : `${timezoneOffset}`;
-    console.log(`Message applies to users with timezone offset: ${timezoneOffset}`);
+    // Find any timezones that match the event hour in local time
+    const matchingTimezoneNames = Moment.tz.names().filter((tzName) => {
+      return momentUTC.tz(tzName).hour() == eventHourLocal;
+    })
+    console.log(matchingTimezoneNames)
 
-    // Find users in this timezone
+    // Find anyone in a matching timezone timezone (Firebase does not have 'FIND IN ARRAY' selects)
     const database = DatabaseService.getDatabase();
-    database.ref('preferences').orderByChild('timezone').equalTo(timezoneStr).once('value').then( (snapshot) => {
+    database.ref('preferences').once('value').then( (snapshot) => {
       snapshot.forEach((preference) => {
-        this._hoursSinceLastPost(momentUTC, preference).then((hoursInactive) => {
-          console.log(`Hours since last post: ${hoursInactive}`);
-          this._sendNotificationIfWithinRange(hoursInactive, preference);
-        }).catch( (e) => console.log(e) );
-      })
-      console.log(snapshot.val())
+        if(matchingTimezoneNames.indexOf(preference.val().timezone) != -1) {
+          // Send a message if user in a matching timezone
+          this._hoursSinceLastPost(momentUTC, preference).then((hoursInactive) => {
+            console.log(`Hours since last post: ${hoursInactive}`);
+            this._sendNotificationIfWithinRange(hoursInactive, preference);
+          }).catch( (e) => console.log(e) );
+        }
+      });      
     });
   }
+
 
   _hoursSinceLastPost(moment, preference) {
     const database = DatabaseService.getDatabase();
