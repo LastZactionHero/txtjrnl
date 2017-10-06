@@ -16,5 +16,12 @@ export default {
       { time: { hour: 18, minute: 0 }, message: 'How did today go?' },
       { time: { hour: 21, minute: 0 }, message: 'Any thoughts as you finish your day?', lastMessageOfTheDay: true }
     ]
+  },
+
+  dormant() {
+    return [
+      'Looks like you haven’t been journaling for a while.',
+      'Revisit your journal to review your past entries and rediscover the power of journaling!'      
+    ]
   }
 }

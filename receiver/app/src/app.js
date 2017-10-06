@@ -4,8 +4,10 @@ import TwilioMessageParser from './TwilioMessageParser'
 import Twilio from 'twilio'
 import WelcomeMessageSender from './WelcomeMessageSender'
 import DatabaseService from './DatabaseService';
-import Schedule from 'node-schedule';
 import InactiveEventService from './InactiveEventService';
+import DormantEventService from './DormantEventService';
+import Schedule from 'node-schedule';
+import Moment from 'moment';
 
 const database = DatabaseService.getDatabase();
 
@@ -17,7 +19,6 @@ const welcomeResponder = (firebaseData) => {
   if(phoneNumberDefined && !data.sentWelcomeNotification) {
     console.log("User needs a welcome notification")
     console.log(firebaseData.key)
-
 
     const userPreferenceRef = database.ref(`preferences/${firebaseData.key}`);
     userPreferenceRef.update({sentWelcomeNotification: true}).then(() => {
@@ -31,12 +32,23 @@ const welcomeResponder = (firebaseData) => {
 preferencesRef.on('child_added', welcomeResponder);
 preferencesRef.on('child_changed', welcomeResponder);
 
+
 // Schedule Inactive Messages
 var idleEventServiceJob = Schedule.scheduleJob('*/15 * * * *', () => {
   console.log("Running InactiveEventService")
   var inactiveEventService = new InactiveEventService();
   inactiveEventService.run(Moment().utc());
 });
+
+// Schedule Dormant Messages
+var dormantEventServiceJob = Schedule.scheduleJob('0 * * * *', () => {
+  console.log("Running DormantEventService")
+  var service = new DormantEventService();
+  service.run(Moment().utc());
+});
+
+
+
 
 // Init Express App
 const app = Express()
