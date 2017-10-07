@@ -8,7 +8,7 @@
         <div class='panel-body'>
           <form>
             <div class="form-group">
-              <label for="phone_number"></label>
+              <label for="phone_number">Phone Number</label>
               <div class='row'>
                 <div class='col-xs-1 text-right country-prefix'>+1</div>
                 <div class='col-xs-11'>

@@ -103,8 +103,13 @@ firebase.auth().onAuthStateChanged(function(user) {
       messagesRef.on('child_removed', function(data) {
         console.log("CHILD DELETED")
       });
+    });
 
-    })
+    // Watch for preferences change
+    firebase.database().ref('preferences/' + user.uid).on('value', (preferences) => {
+      store.commit('preferencesUpdated', preferences.val());
+    });
+
   } else {
     store.commit('sessionEnded');
     router.push('/sign_in');

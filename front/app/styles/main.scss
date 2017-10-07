@@ -1,4 +1,5 @@
 @import "../../node_modules/bootstrap/dist/css/bootstrap";
+@import "../../node_modules/font-awesome/scss/font-awesome";
 // @import "./another";
 
 // Named with: http://chir.ag/projects/name-that-color
@@ -9,6 +10,7 @@ $color-black: #000000;
 $color-concrete: #F2F2F2;
 $color-de-york: #6FCF97;
 $color-jungle-green: #27AE60;
+$color-white: #FFFFFF;
 
 @mixin drop-shadow-down() {
   -webkit-box-shadow: 0px 4px 2px 0px rgba(0,0,0,0.5);
@@ -21,10 +23,29 @@ body {
 }
 
 
-input.form-control[type="text"] {
+input.form-control, select.form-control {
   padding: 24px;
   font-size: 2rem;
   font-family: 'Slabo 13px', serif;
+}
+select.form-control { 
+  height: 50px;
+}
+
+.phone-number-with-prefix-wrapper {
+  position: relative;
+
+  input.form-control.phone-number-with-prefix {
+    padding-left: 54px;
+  }
+
+  .prefix {
+    position: absolute;
+    left: 20px;
+    top: 13px;
+    font-size: 2rem;
+    color: $color-silver;
+  }  
 }
 
 .btn-primary {
@@ -44,14 +65,37 @@ input.form-control[type="text"] {
 
   .navbar-header {
     a {
-      color: white;
+      color: $color-white;
+    }
+    a:hover {
+      color: $color-white;
+    }
+  }
+
+  .navbar-nav {
+    li {
+      a {
+        color: $color-white;
+        font-size: 2rem;
+      }
+      a:hover {
+        color: $color-jungle-green;
+      }
     }
   }
 }
 
+.panel-default {
+  .panel-title {
+    font-size: 3rem;
+  }
+}
+
+
 .country-prefix {
-  line-height: 34px;
+  line-height: 50px;
   font-weight: bold;
+  font-size: 2.4rem;
 }
 
 ul.messages {

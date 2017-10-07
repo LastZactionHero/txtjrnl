@@ -18,7 +18,15 @@
         </ul>
  
         <ul class="nav navbar-nav navbar-right">
-          <li v-if="$store.state.session"><a href="javascript:void(0)" v-on:click="signOut">Sign Out</a></li>
+          <!-- <li v-if="$store.state.session">
+            <a href="javascript:void(0)" v-on:click="signOut"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+          </li> -->
+          <li v-if="$store.state.session">
+            <router-link to="/settings"><i class="fa fa-cog" aria-hidden="true"></i></router-link>
+          </li>
+          <li v-if="$store.state.session">
+            <a href="javascript:void(0)" v-on:click="signOut"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+          </li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -31,6 +39,9 @@
   export default {
     name: 'navbar',
     methods: {
+      settings: function() {
+
+      },
       signOut: function() {
         const ss = new SessionService();
         ss.signOut();
