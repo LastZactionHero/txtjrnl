@@ -1,20 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueChartJS from 'vue-chartjs';
+
 import App from './App'
 import router from './router'
 import "vueify/lib/insert-css" // required for .vue file <style> tags
 import databaseService from 'services/DatabaseService';
+
 import Moment from 'moment-timezone';
+window.moment = Moment;
 
 import jQuery from 'jquery';
 window.$ = jQuery;
 window.jQuery = jQuery;
 
+var bootstrap = require('bootstrap');
 var bootstrapToggle = require('bootstrap-toggle');
 
 
-
-window.moment = Moment;
 
 
 Vue.config.productionTip = false

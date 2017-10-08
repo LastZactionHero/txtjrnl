@@ -24,6 +24,9 @@ body {
   font-family: 'Hind', sans-serif;
 }
 
+h2 {
+  color: $color-emperor;
+}
 
 input.form-control, select.form-control {
   padding: 24px;
@@ -76,7 +79,7 @@ select.form-control {
 
   .navbar-nav {
     li {
-      a {
+      a, a:focus {
         color: $color-white;
         font-size: 2rem;
       }
@@ -167,5 +170,12 @@ ul.messages {
       font-weight: bold;
       margin-top: 12px;
     }
+  }
+}
+
+.chart {
+  margin: 48px 0px;
+  h2 {
+    margin-bottom: 24px;
   }
 }

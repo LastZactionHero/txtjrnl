@@ -15,17 +15,18 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">         
+
         </ul>
  
         <ul class="nav navbar-nav navbar-right">
-          <!-- <li v-if="$store.state.session">
-            <a href="javascript:void(0)" v-on:click="signOut"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
-          </li> -->
           <li v-if="$store.state.session">
-            <router-link to="/settings"><i class="fa fa-cog" aria-hidden="true"></i></router-link>
+            <router-link to="/statistics"><i class="fa fa-bar-chart" aria-hidden="true"></i> Stats</router-link>
           </li>
           <li v-if="$store.state.session">
-            <a href="javascript:void(0)" v-on:click="signOut"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            <router-link to="/settings"><i class="fa fa-cog" aria-hidden="true"></i> Settings</router-link>
+          </li>
+          <li v-if="$store.state.session">
+            <a href="javascript:void(0)" v-on:click="signOut"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
           </li>
         </ul>
       </div><!-- /.navbar-collapse -->
