@@ -24,15 +24,25 @@
         50, // Top 50 words
       );
 
-      if(frequencyList.length == 0) { this.hasWords = false }
+      if(frequencyList.length == 0) { 
+        this.hasWords = false;
+        return
+      }
+
+      const sumCoeff = 6; // Arbitrary
+      const frequencyValues = frequencyList.map((f) => { return f[1] });
+      const listSum = frequencyValues.reduce( (a,b) => { return a + b; }, 0);
+      const frequencyMax = frequencyValues.reduce( (a,b) => { return Math.max(a,b) })
+      const frequencyMin = frequencyValues.reduce( (a,b) => { return Math.min(a,b) })
+
+      frequencyList.forEach( (item) => {
+        item[1] = listSum * sumCoeff / (frequencyList.length) * Math.ceil(item[1] / frequencyCoeff)
+      });
+
 
       WordCloud(this.$refs.canvas, 
         { 
           list: frequencyList,
-          // fontFamily: 'Slabo 13px',
-          weightFactor: (c) => { 
-            return 10 * c;
-          },
           rotationSteps: 10,
           rotateRatio: 0.7
         }
