@@ -28,7 +28,8 @@
     "moment-timezone": "^0.5.13",
     "vue": "^2.4.4",
     "vue-chartjs": "^2.8.7",
-    "vue-router": "^2.6.0"
+    "vue-router": "^2.6.0",
+    "wordcloud": "^1.0.6"
   },
   "devDependencies": {
     "babel-brunch": "^6.0.4",

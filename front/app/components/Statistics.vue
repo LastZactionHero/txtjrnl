@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class='col-md-6'>
-        Word Cloud
+        <word-cloud></word-cloud>
       </div>
     </div>
   </div>
@@ -21,12 +21,14 @@
 <script>
   import TimeOfDayFrequencyChart from './charts/TimeOfDayFrequencyChart'
   import DayOfWeekFrequencyChart from './charts/DayOfWeekFrequencyChart'
+  import WordCloud from './WordCloud'
 
   export default {
     name: 'statistics',
     components: {
       "time-of-day-frequency-chart": TimeOfDayFrequencyChart,
-      "day-of-week-frequency-chart": DayOfWeekFrequencyChart
+      "day-of-week-frequency-chart": DayOfWeekFrequencyChart,
+      "word-cloud": WordCloud
     }
   }
 </script>

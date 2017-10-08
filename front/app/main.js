@@ -17,6 +17,8 @@ window.jQuery = jQuery;
 var bootstrap = require('bootstrap');
 var bootstrapToggle = require('bootstrap-toggle');
 
+import WordCloud from 'wordcloud';
+window.WordCloud = WordCloud;
 
 
 
