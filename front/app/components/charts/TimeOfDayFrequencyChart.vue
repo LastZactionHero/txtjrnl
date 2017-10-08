@@ -1,28 +1,11 @@
 <script>
-  import { Bar } from 'vue-chartjs';
-  export default Bar.extend({
+  import CommonChart from './CommonChart';
+
+  export default CommonChart.extend({
     name: 'time-of-day-frequency-chart',
-    data() {
-      return {
-        messages: this.$store.state.messages
-      }
-    },
-    mounted () {
-
-      const timezone = this.$store.state.preferences.timezone;
-
-      // Get an array of hours each message was posted at, in the user's timezone
-      const hourPosted = this.messages.map((message) => { 
-        return moment(message.created_at).tz(timezone).hour() 
-      });
-
-      let postsCountByHour = Array(24).fill().map((_, hour) => { 
-        return hourPosted.filter((i) => { return i == hour }).length
-       });
-
-      // Overwriting base render method with actual data.
-      const data = {
-        labels: [
+    methods: {
+      labels() {
+        return [
           '12:00 AM', 
           '-', 
           '2:00 AM', 
@@ -46,31 +29,22 @@
           '8:00 PM', 
           '-',
           '10:00 PM', 
-          '-',                   
-          ],
-        datasets: [
-          {
-            label: null,
-            backgroundColor: '#6FCF97',
-            data: postsCountByHour,
-          }
+          '-', 
         ]
-      };
-      const options = {
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: false
-        },
-        scales: {
-          xAxes: [{
-            barPercentage: 1.0,
-            categoryPercentage: 0.9
-          }]
-        }
-      };
-      this.renderChart(data, options)
+      },
+      datasetValues() {
+        const timezone = this.$store.state.preferences.timezone;
+
+        // Get an array of hours each message was posted at, in the user's timezone
+        const hourPosted = this.$store.state.messages.map((message) => { 
+          return moment(message.created_at).tz(timezone).hour() 
+        });
+
+        let postsCountByHour = Array(24).fill().map((_, hour) => { 
+          return hourPosted.filter((i) => { return i == hour }).length
+        });
+        return postsCountByHour;
+      }
     }
   });
 </script>
