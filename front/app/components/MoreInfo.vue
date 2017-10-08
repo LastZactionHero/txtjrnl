@@ -65,7 +65,8 @@
         const preferences = {
           phoneNumber: this.phoneNumber,
           phoneNumberFormatted: phoneNumberFormatted,
-          timezone: this.timezone
+          timezone: this.timezone,
+          notifications: true
         };
         firebase.database().ref('preferences/' + this.$store.state.user.uid).update(preferences).then(function() {
           this.$store.commit('preferencesUpdated', preferences);

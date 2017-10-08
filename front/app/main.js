@@ -5,10 +5,17 @@ import router from './router'
 import "vueify/lib/insert-css" // required for .vue file <style> tags
 import databaseService from 'services/DatabaseService';
 import Moment from 'moment-timezone';
-import JQuery from 'jquery';
+
+import jQuery from 'jquery';
+window.$ = jQuery;
+window.jQuery = jQuery;
+
+var bootstrapToggle = require('bootstrap-toggle');
+
+
 
 window.moment = Moment;
-window.$ = JQuery;
+
 
 Vue.config.productionTip = false
 Vue.use(Vuex);
