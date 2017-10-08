@@ -17,8 +17,9 @@ export default class DormantEventService {
     console.log(matchingTimezoneNames)
 
     // Find anyone in a matching timezone timezone (Firebase does not have 'FIND IN ARRAY' selects)
+    // Loop through all preferences for anyone that receives notifications
     const database = DatabaseService.getDatabase();
-    database.ref('preferences').once('value').then( (snapshot) => {
+    database.ref('preferences').orderByChild('notifications').equalTo(true).once('value').then( (snapshot) => {
       snapshot.forEach((preference) => {
         if(matchingTimezoneNames.indexOf(preference.val().timezone) != -1) {
           // Send a message if user in a matching timezone
