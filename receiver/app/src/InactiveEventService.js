@@ -51,28 +51,31 @@ export default class InactiveEventService {
   }
 
   _sendNotificationIfWithinRange(inactiveHours, preference, inactiveEventMessage) {
-    const database = DatabaseService.getDatabase();
+    // const database = DatabaseService.getDatabase();
 
-    let sendIdleMessagesToday = preference.val().sendIdleMessagesToday;
+    // let sendIdleMessagesToday = preference.val().sendIdleMessagesToday;
 
-    if(inactiveEventMessage.firstMessageOfTheDay &&
-       ( inactiveHours >= 48 && inactiveHours < 72 ||
-        inactiveHours >= 96 && inactiveHours < 120 ||
-        inactiveHours >= 144 && inactiveHours < 168 ) ) {
-      const ref = database.ref(`preferences/${preference.key}`);
-      ref.update({ sendIdleMessagesToday: true });
-      sendIdleMessagesToday = true;
-    }
+    // Temporarily defaulting this to true, regardless of post activity
+    let sendIdleMessagesToday = true;
+
+    // if(inactiveEventMessage.firstMessageOfTheDay &&
+    //    ( inactiveHours >= 48 && inactiveHours < 72 ||
+    //     inactiveHours >= 96 && inactiveHours < 120 ||
+    //     inactiveHours >= 144 && inactiveHours < 168 ) ) {
+    //   const ref = database.ref(`preferences/${preference.key}`);
+    //   ref.update({ sendIdleMessagesToday: true });
+    //   sendIdleMessagesToday = true;
+    // }
 
     if(sendIdleMessagesToday) {
       const sender = new TwilioMessageSender();
       sender.send(preference.val().phoneNumberFormatted, inactiveEventMessage.message)
     }
 
-    if(inactiveEventMessage.lastMessageOfTheDay) {
-      const ref = database.ref(`preferences/${preference.key}`);
-      ref.update({ sendIdleMessagesToday: false });
-    }
+    // if(inactiveEventMessage.lastMessageOfTheDay) {
+    //   const ref = database.ref(`preferences/${preference.key}`);
+    //   ref.update({ sendIdleMessagesToday: false });
+    // }
   }
 
 }
