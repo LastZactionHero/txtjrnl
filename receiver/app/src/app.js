@@ -73,12 +73,27 @@ app.post('/sms', function (req, res) {
       return;
     }
 
+    // Determine if this was in response to a recent inactivity prompt
+    let recentPrompt = null;
+    const lastPrompted = snapshot.val().lastPrompted;
+    if(lastPrompted) {
+      const lastPromptedAt = Moment(lastPrompted.lastPromptedAt);
+      const now = Moment();
+      const minutesSinceLastPrompted = (now - lastPromptedAt) / (1000 * 60);
+      const recentPromptThreshold = 30; // If message is received within 30 minutes of a prompt
+      if(minutesSinceLastPrompted < recentPromptThreshold) {
+        recentPrompt = lastPrompted;
+      }
+    }
+
+
     var newMessageRef = database.ref().child(`messages/${userKey}/`).push();
     newMessageRef.set({
       body: message.body,
       media: message.media,
       raw: message.data,
-      created_at: (new Date()).toISOString()
+      created_at: (new Date()).toISOString(),
+      recentPrompt: recentPrompt
     });
 
   });  
