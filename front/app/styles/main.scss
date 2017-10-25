@@ -29,13 +29,12 @@ h2 {
 }
 
 input.form-control, select.form-control {
-  padding: 24px;
+  padding: 10px 24px;
   font-size: 2rem;
   font-family: 'Slabo 13px', serif;
+  height: auto;
 }
-select.form-control { 
-  height: 50px;
-}
+
 
 .phone-number-with-prefix-wrapper {
   position: relative;
