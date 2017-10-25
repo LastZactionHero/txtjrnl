@@ -129,6 +129,10 @@ ul.messages {
       color: $color-emperor;
     }
 
+    img.media {
+      max-width: 100%;
+    }
+
     .timestamp {
       color: $color-silver;
       font-size: 2rem;

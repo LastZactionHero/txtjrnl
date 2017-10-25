@@ -12,7 +12,7 @@
         <span class='message-body' v-html="messageBody"></span>
         <div v-if="message.media">
           <div v-for="media in message.media">
-            <img :src="media.url" />
+            <img :src="media.url" class='media' />
           </div>
         </div>
       </div>
