@@ -3,6 +3,7 @@ import Messages from './Messages';
 import PossibleInactiveEventUserListService from './PossibleInactiveEventUserListService';
 import DatabaseService from './DatabaseService';
 import TwilioMessageSender from './TwilioMessageSender';
+import LastPromptedService from './LastPromptedService';
 
 export default class InactiveEventService {
   run(moment) {
@@ -70,6 +71,9 @@ export default class InactiveEventService {
     if(sendIdleMessagesToday) {
       const sender = new TwilioMessageSender();
       sender.send(preference.val().phoneNumberFormatted, inactiveEventMessage.message)
+
+      const lastPromptedService = new LastPromptedService(preference);
+      lastPromptedService.setLastPrompted(Moment(), inactiveEventMessage);
     }
 
     // if(inactiveEventMessage.lastMessageOfTheDay) {

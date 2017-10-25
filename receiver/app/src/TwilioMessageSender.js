@@ -6,7 +6,7 @@ export default class TwilioMessageSender {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const outboundPhone = process.env.TWILIO_OUTBOUND_PHONE;
 
-    if(!toPhoneNumber || toPhoneNumber.length == 0) { throw 'Message must be present!' }
+    if(!toPhoneNumber || toPhoneNumber.length == 0) { throw 'Phone number must be present!' }
     if(!messageBody || messageBody.length == 0) { throw 'Message must be present!' }
 
     return new Promise((resolve, reject) => {
