@@ -107,6 +107,13 @@ ul.messages {
   margin: 64px 0px;
   padding: 0px;
 
+  .prompt {
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: $color-silver;
+  }
+
   .message {
     padding-top: 36px;
     margin-bottom: 24px;

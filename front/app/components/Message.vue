@@ -9,6 +9,9 @@
     </div>
     <div class='row'>
       <div class='col-md-9'>
+        <div v-if="message.recentPrompt" class='prompt'>
+          {{ message.recentPrompt.message.message }}
+        </div>
         <span class='message-body' v-html="messageBody"></span>
         <div v-if="message.media">
           <div v-for="media in message.media">
