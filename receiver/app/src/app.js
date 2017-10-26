@@ -57,6 +57,7 @@ app.use(BodyParser.urlencoded({ extended: true }));
 // SMS Reciever
 app.post('/sms', function (req, res) {
   res.status(204).send();
+  console.log(req.body);
 
   const message = new TwilioMessageParser(req.body);
   console.log(message.phoneNumber);
