@@ -4,20 +4,21 @@ import PossibleInactiveEventUserListService from './PossibleInactiveEventUserLis
 import DatabaseService from './DatabaseService';
 import TwilioMessageSender from './TwilioMessageSender';
 import LastPromptedService from './LastPromptedService';
+import Logger from './Logger';
 
 export default class InactiveEventService {
   run(moment) {
-    console.log(moment);
+    Logger.instance().info(moment);
 
     Messages.inactive().forEach((inactiveEventMessage) => {
-      console.log("Checking Event: ");
-      console.log(inactiveEventMessage);
+      Logger.instance().info("Checking Event: ");
+      Logger.instance().info(inactiveEventMessage);
 
       var possibleInactiveService = new PossibleInactiveEventUserListService(inactiveEventMessage, moment);
       possibleInactiveService.find().then( (userPreferencesSnapshot) => {
-        console.log(`This event could apply to ${userPreferencesSnapshot.length} user(s)`);
+        Logger.instance().info(`This event could apply to ${userPreferencesSnapshot.length} user(s)`);
         this._notifyIfInactive(moment, userPreferencesSnapshot, inactiveEventMessage);
-      }).catch( (e) => { console.log('Event not running now.'); console.log(e) } );
+      }).catch( (e) => { Logger.instance().info('Event not running now.'); Logger.instance().info(e) } );
     });
   }
 
@@ -25,9 +26,9 @@ export default class InactiveEventService {
     // For each user that could be notified, determine the number of hours since their last posts
     userPreferencesSnapshot.forEach( (preference) => {
       this._hoursSinceLastPost(moment, preference).then( (inactiveHours) => { 
-        console.log(`Hours Since Last Post: ${inactiveHours}`);
+        Logger.instance().info(`Hours Since Last Post: ${inactiveHours}`);
         this._sendNotificationIfWithinRange(inactiveHours, preference, inactiveEventMessage);
-      }).catch( (e) => {console.log(e) });
+      }).catch( (e) => {Logger.instance().info(e) });
     });
   }
 

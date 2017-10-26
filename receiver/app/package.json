@@ -25,6 +25,7 @@
     "jasmine-core": "^2.8.0",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
-    "nock": "^9.0.22"
+    "nock": "^9.0.22",
+    "winston": "^2.4.0"
   }
 }

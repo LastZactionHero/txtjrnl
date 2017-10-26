@@ -1,3 +1,4 @@
+import Logger from './Logger';
 import firebaseAdmin from 'firebase-admin'
 
 export default {
@@ -6,7 +7,7 @@ export default {
 
   getDatabase() {
     const databaseURL = process.env.FIREBASE_DATABASE_URL;
-    console.log(`Connecting to: ${databaseURL}`);
+    Logger.instance().info(`Connecting to: ${databaseURL}`);
 
     if(!this._database) {
       var serviceAccount = require("/root/firebase-key.json");

@@ -1,6 +1,7 @@
 import DatabaseService from './DatabaseService';
 import Messages from './Messages';
 import Moment from 'moment-timezone';
+import Logger from './Logger';
 
 // Build a list of Users that may be eligable for an Inactive message
 export default class PossibleInactiveEventUserListService {
@@ -23,7 +24,7 @@ export default class PossibleInactiveEventUserListService {
       const matchingTimezoneNames = Moment.tz.names().filter((tzName) => {
         return this._moment.tz(tzName).hour() == this._inactiveEvent.time.hour
       })
-      console.log(matchingTimezoneNames)
+      Logger.instance().info(matchingTimezoneNames)
 
       // Find anyone in a matching timezone timezone (Firebase does not have 'FIND IN ARRAY' selects)
       // Loop through all preferences for anyone that receives notifications

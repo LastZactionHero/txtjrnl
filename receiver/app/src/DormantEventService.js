@@ -1,20 +1,21 @@
 import DatabaseService from './DatabaseService';
 import DormantMessageSender from './DormantMessageSender';
 import Moment from 'moment-timezone';
+import Logger from './Logger';
 
 export default class DormantEventService {
   run(momentUTC) {
-    console.log("RUN!")
+    Logger.instance().info("RUN!")
 
     const currentHourUTC = momentUTC.hour();
-    console.log(`Current Hour, UTC: ${currentHourUTC}`)
+    Logger.instance().info(`Current Hour, UTC: ${currentHourUTC}`)
     const eventHourLocal = 10; // Run at 10AM
 
     // Find any timezones that match the event hour in local time
     const matchingTimezoneNames = Moment.tz.names().filter((tzName) => {
       return momentUTC.tz(tzName).hour() == eventHourLocal;
     })
-    console.log(matchingTimezoneNames)
+    Logger.instance().info(matchingTimezoneNames)
 
     // Find anyone in a matching timezone timezone (Firebase does not have 'FIND IN ARRAY' selects)
     // Loop through all preferences for anyone that receives notifications
@@ -24,9 +25,9 @@ export default class DormantEventService {
         if(matchingTimezoneNames.indexOf(preference.val().timezone) != -1) {
           // Send a message if user in a matching timezone
           this._hoursSinceLastPost(momentUTC, preference).then((hoursInactive) => {
-            console.log(`Hours since last post: ${hoursInactive}`);
+            Logger.instance().info(`Hours since last post: ${hoursInactive}`);
             this._sendNotificationIfWithinRange(hoursInactive, preference);
-          }).catch( (e) => console.log(e) );
+          }).catch( (e) => Logger.instance().info(e) );
         }
       });      
     });

@@ -1,5 +1,6 @@
 import Messages from './Messages';
 import TwilioMessageSender from './TwilioMessageSender';
+import Logger from './Logger';
 
 export default class WelcomeMessageSender {
   constructor(phoneNumberFormatted, delay = 1000) {
@@ -10,7 +11,7 @@ export default class WelcomeMessageSender {
   send(finishedCallback) {
     this._finishedCallback = finishedCallback;
 
-    console.log(`Starting welcome message send to: ${this._phoneNumberFormatted}`);
+    Logger.instance().info(`Starting welcome message send to: ${this._phoneNumberFormatted}`);
     this._messageStack = Messages.welcome();
     this._sendNext();
   }
@@ -18,22 +19,22 @@ export default class WelcomeMessageSender {
   _sendNext() {
     // Is everything done?
     if(this._messageStack.length == 0) { 
-      console.log('Welcome send complete.')
+      Logger.instance().info('Welcome send complete.')
       if(this._finishedCallback) { this._finishedCallback() };
       return; 
     } 
 
     // Get the next message off the stack
     let messageBody = this._messageStack.splice(0,1);
-    console.log(`Sending message: ${messageBody}`);
+    Logger.instance().info(`Sending message: ${messageBody}`);
 
     const sender = new TwilioMessageSender();    
     sender.send(this._phoneNumberFormatted, messageBody).then((messageSid) => {
-      console.log(`Send successful. SID: ${messageSid}`);
+      Logger.instance().info(`Send successful. SID: ${messageSid}`);
       setTimeout(this._sendNext.bind(this), this._delay);
     }).catch((error) => {
-      console.log("ERROR! Failed sending welcome message:")
-      console.log(error);
+      Logger.instance().info("ERROR! Failed sending welcome message:")
+      Logger.instance().info(error);
     })
   }
 }
