@@ -20,7 +20,7 @@
     mounted() {
       const frequency = new WordCloudFrequency
       const frequencyList = frequency.frequencyList(
-        this.$store.state.messages.map( (message) => { return message.body }),
+        this.$store.state.messages.map( (message) => { return message.body }).filter( (body) => { return body && body.length > 0 }),
         50, // Top 50 words
       );
 
