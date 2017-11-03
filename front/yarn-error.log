@@ -1,0 +1,67 @@
+Arguments: 
+  /usr/local/bin/node /root/.yarn/bin/yarn.js install
+
+PATH: 
+  /root/.yarn/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+Yarn version: 
+  1.2.1
+
+Node version: 
+  8.6.0
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+    "name": "brunch-vue-barebones",
+    "description": "A Barebones Vue Skeleton for Brunch",
+    "version": "0.0.1",
+    "scripts": {
+      "start": "brunch watch --server",
+      "build": "brunch build --production"
+    },
+    "author": "Tom Quirk <tomquirkacc@gmail.com> (http://tomquirk.com.au)",
+    "repository": "https://github.com/tomquirk/brunch-vue-barebones",
+    "keywords": [
+      "vue",
+      "brunch",
+      "skeleton",
+      "vue-router"
+    ],
+    "dependencies": {
+      "bootstrap-toggle": "^2.2.2",
+      "chart.js": "^2.7.0",
+      "font-awesome": "^4.7.0",
+      "jquery": "^3.2.1",
+      "moment-timezone": "^0.5.13",
+      "vue": "^2.4.4",
+      "vue-chartjs": "^2.8.7",
+      "vue-router": "^2.6.0",
+      "wordcloud": "^1.0.6"
+    },
+    "devDependencies": {
+      "babel-brunch": "^6.0.4",
+      "babel-eslint": "^7.2.3",
+      "babel-plugin-transform-runtime": "^6.23.0",
+      "babel-preset-es2015": "^6.6.0",
+      "bootstrap": "^3.3.7",
+      "brunch": "^2.10.10",
+      "moment": "^2.18.1",
+      "sass-brunch": "^2.10.4",
+      "vue-brunch": "^2.0.1",
+      "vuex": "^2.4.0"
+    },
+    "license": "ISC",
+    "main": "index.js"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: EPROTO: protocol error, symlink '../../../browserslist/cli.js' -> '/app/node_modules/autoprefixer/node_modules/.bin/browserslist'

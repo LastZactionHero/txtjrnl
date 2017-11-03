@@ -29,6 +29,9 @@
       "time-of-day-frequency-chart": TimeOfDayFrequencyChart,
       "day-of-week-frequency-chart": DayOfWeekFrequencyChart,
       "word-cloud": WordCloud
+    },
+    created: function() {
+      mixpanel.track('Viewed Statistics');
     }
   }
 </script>

@@ -11,5 +11,6 @@ export default {
       raw: null,
       created_at: (new Date()).toISOString()
     });
+    mixpanel.track('Journaled', { source: 'app', message: message });
   }
 }

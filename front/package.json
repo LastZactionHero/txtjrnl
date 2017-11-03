@@ -6,14 +6,8 @@
     "start": "brunch watch --server",
     "build": "brunch build --production"
   },
-  "author": {
-    "url": "http://tomquirk.com.au",
-    "name": "Tom Quirk",
-    "email": "tomquirkacc@gmail.com"
-  },
-  "repository": {
-    "url": "https://github.com/tomquirk/brunch-vue-barebones"
-  },
+  "author": "Tom Quirk <tomquirkacc@gmail.com> (http://tomquirk.com.au)",
+  "repository": "https://github.com/tomquirk/brunch-vue-barebones",
   "keywords": [
     "vue",
     "brunch",
@@ -25,6 +19,7 @@
     "chart.js": "^2.7.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
+    "mixpanel-browser": "^2.13.0",
     "moment-timezone": "^0.5.13",
     "vue": "^2.4.4",
     "vue-chartjs": "^2.8.7",
@@ -43,5 +38,6 @@
     "vue-brunch": "^2.0.1",
     "vuex": "^2.4.0"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "main": "index.js"
 }

@@ -20,6 +20,9 @@ var bootstrapToggle = require('bootstrap-toggle');
 import WordCloud from 'wordcloud';
 window.WordCloud = WordCloud;
 
+import Mixpanel from 'mixpanel-browser';
+window.mixpanel = Mixpanel;
+window.mixpanel.init("f940feaf4b11b6ffcfb8eb7bf9fd76df");
 
 
 Vue.config.productionTip = false
@@ -37,6 +40,12 @@ const store = new Vuex.Store({
     sessionStarted (state, user) {
       state.session = true;
       state.user = user;
+
+      mixpanel.track('User Session Started');
+      mixpanel.identify(user.key);
+      mixpanel.people.set({
+        "$email": user.email
+      });
     },
     sessionEnded (state) {
       state.initializing = false;
@@ -45,9 +54,12 @@ const store = new Vuex.Store({
         state.user = null;
         state.preferences = {};
       }
+      mixpanel.track('User Session Ended');
     },
     preferencesUpdated (state, preferences) {
       state.preferences = preferences;
+
+      mixpanel.people.set(preferences);
     },
     initFinished (state) {
       state.initializing = false;
