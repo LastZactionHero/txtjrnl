@@ -1,4 +1,5 @@
 import DatabaseService from './DatabaseService';
+import ErrorHandler from './ErrorHandler';
 
 export default {
   postNewMessage(user, message) {
@@ -10,6 +11,8 @@ export default {
       media: [],
       raw: null,
       created_at: (new Date()).toISOString()
+    }).catch( (error) => {
+      ErrorHandler.handleError(error);
     });
     mixpanel.track('Journaled', { source: 'app', message: message });
   }
