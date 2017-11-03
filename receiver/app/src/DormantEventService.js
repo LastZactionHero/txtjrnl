@@ -2,6 +2,7 @@ import DatabaseService from './DatabaseService';
 import DormantMessageSender from './DormantMessageSender';
 import Moment from 'moment-timezone';
 import Logger from './Logger';
+import MixpanelService from './MixpanelService';
 
 export default class DormantEventService {
   run(momentUTC) {
@@ -58,6 +59,10 @@ export default class DormantEventService {
     if(hoursInactive >= 240 && hoursInactive < 264) {
       const sender = new DormantMessageSender(preference.val().phoneNumberFormatted);
       sender.send();
+
+      // Track it
+      const mixpanel = MixpanelService.getInstance();
+      mixpanel.track('Dormant Prompt Sent', { distinct_id: preference.key });
     }
   }
 }

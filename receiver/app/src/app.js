@@ -9,6 +9,7 @@ import DormantEventService from './DormantEventService';
 import Schedule from 'node-schedule';
 import Moment from 'moment-timezone';
 import Logger from './Logger';
+import MixpanelService from './MixpanelService';
 
 const database = DatabaseService.getDatabase();
 
@@ -29,7 +30,11 @@ const welcomeResponder = (firebaseData) => {
 
       const welcomeSender = new WelcomeMessageSender(data.phoneNumberFormatted);
       welcomeSender.send()
-    })
+    });
+
+    // Track it
+    const mixpanel = MixpanelService.getInstance();
+    mixpanel.track('Welcome Message Sent', { distinct_id: firebaseData.key });
   }
 }
 preferencesRef.on('child_added', welcomeResponder);
@@ -90,7 +95,7 @@ app.post('/sms', function (req, res) {
       }
     }
 
-
+    // Save the message
     var newMessageRef = database.ref().child(`messages/${userKey}/`).push();
     newMessageRef.set({
       body: message.body,
@@ -98,6 +103,15 @@ app.post('/sms', function (req, res) {
       raw: message.data,
       created_at: (new Date()).toISOString(),
       recentPrompt: recentPrompt
+    });
+
+    // Track it
+    const mixpanel = MixpanelService.getInstance();
+    mixpanel.track('Journaled', {
+      distinct_id: userKey,
+      source: 'sms',
+      message: message.body,
+      media: message.media
     });
 
   });  

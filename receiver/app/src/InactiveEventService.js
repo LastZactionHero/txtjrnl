@@ -5,6 +5,7 @@ import DatabaseService from './DatabaseService';
 import TwilioMessageSender from './TwilioMessageSender';
 import LastPromptedService from './LastPromptedService';
 import Logger from './Logger';
+import MixpanelService from './MixpanelService';
 
 export default class InactiveEventService {
   run(moment) {
@@ -75,6 +76,9 @@ export default class InactiveEventService {
 
       const lastPromptedService = new LastPromptedService(preference);
       lastPromptedService.setLastPrompted(Moment(), inactiveEventMessage);
+
+      const mixpanel = MixpanelService.getInstance();
+      mixpanel.track('Inactive Prompt Sent', { distinct_id: preference.key });
     }
 
     // if(inactiveEventMessage.lastMessageOfTheDay) {

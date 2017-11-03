@@ -42,7 +42,7 @@ const store = new Vuex.Store({
       state.user = user;
 
       mixpanel.track('User Session Started');
-      mixpanel.identify(user.key);
+      mixpanel.identify(user.uid);
       mixpanel.people.set({
         "$email": user.email
       });
